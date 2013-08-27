@@ -5,7 +5,9 @@ class String
   # are not guaranteed to be preserved
   def wrap(width)
     source = self.dup
-    ( source.length < width ) ? source : source.scan(/.{1,#{width}}/).join("<wbr>")
+    source.split("\n").collect do |line|
+      line.length > line_width ? line.gsub(/(.{1,#{line_width}})(\s+|$)/, "\\1\n").strip : line
+    end * "\n"
   end
 
   # Indent each line of a string by n spaces
